@@ -6,6 +6,8 @@ const jwtConfig = {
 };
 
 export async function parseToken(token: string): Promise<jose.JWTPayload | null> {
+  if(!token) return null
+
   try {
     const { payload } = await jose.jwtVerify(token, jwtConfig.secret);
     return payload;
@@ -28,7 +30,7 @@ export async function createToken({ sub, username }: CreateTokenProps): Promise<
         .setExpirationTime('1h')
         .sign(jwtConfig.secret)
   } catch (err) {
-    console.error("Error creating", err)
+    console.error("Error creating token", err)
     throw err
   }
 }

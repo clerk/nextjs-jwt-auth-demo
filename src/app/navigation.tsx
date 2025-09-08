@@ -13,7 +13,7 @@ async function Navigation() {
 
   return (
     <nav className='flex flex-row justify-between items-center border-b-1 border-b-neutral-200 p-6'>
-      <div className='flex flex-row gap-2 items-center'>
+      <Link href="/" className='flex flex-row gap-2 items-center'>
         <svg width="32" height="32" viewBox="0 0 32 32" fill="none" aria-label="Padlock Logo" xmlns="http://www.w3.org/2000/svg">
           <rect width="32" height="32" rx="8" fill="#2563EB"/>
           <g>
@@ -27,7 +27,7 @@ async function Navigation() {
           </g>
         </svg>
         Next.js JWT Auth Demo
-      </div>
+      </Link>
 
       {user ? (
         <SignOutButton />
