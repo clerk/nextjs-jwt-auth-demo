@@ -20,8 +20,8 @@ export default function Home() {
         </p>
         <ul className="list-disc list-inside text-base mb-6 text-left">
           <li>Issue JWTs on login and store them securely in HTTP-only cookies</li>
-          <li>Protect API routes and pages using Next.js middleware</li>
-          <li>Read and validate JWTs on the server and client</li>
+          <li>Protect routes and pages using Next.js middleware</li>
+          <li>Read and validate JWTs</li>
           <li>Implement login, logout, and protected pages</li>
         </ul>
         <p className="text-base text-center sm:text-left">
