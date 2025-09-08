@@ -10,8 +10,8 @@ import { useRouter } from 'next/navigation'
 
 function SignInPage() {
   const router = useRouter()
-  const [username, setUsername] = useState<string>()
-  const [pass, setPass] = useState<string>()
+  const [username, setUsername] = useState<string>("")
+  const [pass, setPass] = useState<string>("")
   const [err, setErr] = useState<string>()
 
   async function onSignInClicked() {

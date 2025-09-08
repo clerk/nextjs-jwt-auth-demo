@@ -7,10 +7,13 @@ import { useState } from 'react'
 import { registerUser } from '../actions'
 import { Alert, AlertDescription, AlertTitle } from '@/components/ui/alert'
 
+import { useRouter } from 'next/navigation'
+
 function SignUpPage() {
-  const [username, setUsername] = useState<string>()
-  const [pass, setPass] = useState<string>()
-  const [confPass, setConfPass] = useState<string>()
+  const router = useRouter()
+  const [username, setUsername] = useState<string>("")
+  const [pass, setPass] = useState<string>("")
+  const [confPass, setConfPass] = useState<string>("")
   const [err, setErr] = useState<string>()
 
   async function register() {
@@ -23,7 +26,7 @@ function SignUpPage() {
     }
     try {
       await registerUser(username as string, pass as string)
-      // redirect to dashboard
+      router.push("/dashboard")
     } catch (err) {
       setErr((err as Error).message)
     }

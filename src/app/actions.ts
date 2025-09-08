@@ -59,8 +59,21 @@ export async function registerUser(username: string, password: string) {
     // Create the user record
     const userId = await createUserRecord(username, hash)
 
-    return userId
 
+
+    // Create the token and set it in a cookie
+    const token = await createToken({
+      sub: userId?.toString(),
+      username: username as string
+    })
+    const cookieStore = await cookies();
+    cookieStore.set("token", token, {
+      path: "/",
+      httpOnly: true,
+      sameSite: "lax",
+      secure: process.env.NODE_ENV === "production",
+      maxAge: 3600 // 1 hour in seconds
+    });
   } catch (err) {
     throw err
   }
