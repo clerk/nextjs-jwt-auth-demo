@@ -3,7 +3,8 @@
 import bcrypt from 'bcrypt'
 import { db } from '@/lib/db'
 import { RunResult } from 'sqlite3';
-import { checkIsOnDemandRevalidate } from 'next/dist/server/api-utils';
+import { cookies } from "next/headers";
+import { createToken } from '@/lib/jwt';
 
 const SALT_ROUNDS = 10;
 
@@ -17,7 +18,6 @@ async function verifyPassword(inputPassword: string, storedHash: string) {
     return await bcrypt.compare(inputPassword, storedHash);
 }
 
-// TODO: Check for duplicate username
 async function createUserRecord(username: string, hash: string): Promise<number> {
   return new Promise((resolve, reject) => {
     // Create db record
@@ -68,7 +68,57 @@ export async function registerUser(username: string, password: string) {
 }
 
 export async function signinUser(username: string, password: string) {
-  // Check creds
+  try {
+    // Check creds
+    const user = await fetchUserFromDb(username)
+    const isPasswordValid = await verifyPassword(password, user.password_hash as string)
+    if(!isPasswordValid) {
+      throw new Error("Username and/or password is incorrect")
+    }
+    if(!user.id || !user.username) {
+      console.error("Error parsing user details", user)
+      throw new Error("Unknown error")
+    }
 
-  // Mint JWT
+    // Create the token and set it in a cookie
+    const token = await createToken({
+      sub: user.id?.toString(),
+      username: user.username as string
+    })
+    const cookieStore = await cookies();
+    cookieStore.set("token", token, {
+      path: "/",
+      httpOnly: true,
+      sameSite: "lax",
+      secure: process.env.NODE_ENV === "production",
+      maxAge: 3600 // 1 hour in seconds
+    });
+  } catch (err) {
+    throw err
+  }
+}
+
+interface FetchUserResult extends RunResult {
+  id?: number
+  username?: string
+  password_hash?: string
+}
+
+async function fetchUserFromDb(username: string): Promise<FetchUserResult> {
+  return new Promise((resolve, reject) => {
+    db.get('select * from users where username=?', [username], (err, results: FetchUserResult) => {
+      if(err) {
+        reject(err)
+      }
+      if (!results.id) {
+        reject("User not found")
+      }
+      resolve(results)
+    })
+  })
+}
+
+export async function signOut() {
+  const cookieStore = await cookies();
+  cookieStore.delete("token")
 }
