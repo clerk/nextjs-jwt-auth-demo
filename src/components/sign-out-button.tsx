@@ -2,7 +2,7 @@
 
 import { Button } from '@/components/ui/button'
 import React from 'react'
-import { signOut } from './actions'
+import { signOut } from '../app/actions'
 
 function SignOutButton() {
   async function onClick() {
