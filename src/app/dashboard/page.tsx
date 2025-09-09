@@ -4,14 +4,10 @@ import { cookies } from "next/headers";
 import { parseToken } from '@/lib/jwt';
 
 async function DashboardPage() {
-  const cookieStore = await cookies()
-  const tokenCookie = await cookieStore.get('token')
-  const user = await parseToken(tokenCookie?.value as string)
-
   return (
     <div className='max-w-800px p-8 flex flex-col gap-4'>
       <div className='flex flex-row justify-between'>
-        <h1>Welcome {user?.username as string}!</h1>
+        <h1>Welcome!</h1>
       </div>
       <div className='grid grid-cols-3 gap-2'>
         <Card>
