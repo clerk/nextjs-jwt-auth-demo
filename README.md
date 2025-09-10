@@ -1,4 +1,13 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+
+# Next.js JWT Auth Demo
+
+This is a companion repository for the article **"How to Add Authentication to a Next.js Application"** on Clerk's blog. This repo teaches users how to add JWT authentication to a Next.js application.
+
+Read the full article here: [How do I add authentication to a Next.js app?](https://clerk.com/blog/how-to-add-authentication-to-a-nextjs-application)
+
+---
+
+This project is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
 
 ## Getting Started
 
