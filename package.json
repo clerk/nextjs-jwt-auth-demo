@@ -6,7 +6,8 @@
     "dev": "next dev --turbopack",
     "build": "next build --turbopack",
     "start": "next start",
-    "lint": "eslint"
+    "lint": "eslint",
+    "generate-secret": "node -e \"console.log(require('crypto').randomBytes(32).toString('base64'))\""
   },
   "dependencies": {
     "@hookform/resolvers": "^5.2.1",

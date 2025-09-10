@@ -1,7 +1,5 @@
 import { Card } from '@/components/ui/card'
 import React from 'react'
-import { cookies } from "next/headers";
-import { parseToken } from '@/lib/jwt';
 
 async function DashboardPage() {
   return (
