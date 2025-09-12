@@ -11,7 +11,7 @@ async function DashboardPage() {
   return (
     <div className='max-w-800px p-8 flex flex-col gap-4'>
       <div className='flex flex-row justify-between'>
-        <h1>Welcome {user.username}!</h1>
+        <h1>Welcome {user?.username}!</h1>
       </div>
       <div className='grid grid-cols-3 gap-2'>
         <Card>

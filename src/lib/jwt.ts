@@ -1,15 +1,31 @@
 import * as jose from 'jose'
 
-const jwtConfig = {
-  secret: new TextEncoder().encode(process.env.JWT_SECRET),
-  protectedHeader: { alg: 'HS256', typ: 'JWT' },
+const privateKeyPem = process.env.JWT_PRIVATE_KEY as string
+const publicKeyPem = process.env.JWT_PUBLIC_KEY as string
+
+async function getPrivateKey() {
+  return jose.importPKCS8(privateKeyPem, 'RS256')
 }
 
-export async function parseToken(token: string): Promise<jose.JWTPayload | null> {
+async function getPublicKey() {
+  return jose.importSPKI(publicKeyPem, 'RS256')
+}
+
+const jwtConfig = {
+  protectedHeader: { alg: 'RS256', typ: 'JWT' },
+}
+
+interface CustomJWTPayload extends jose.JWTPayload {
+  username?: string
+}
+
+export async function parseToken(token: string): Promise<CustomJWTPayload | null> {
   if (!token) return null
 
   try {
-    const { payload } = await jose.jwtVerify(token, jwtConfig.secret)
+    const publicKey = await getPublicKey()
+    const { payload } = await jose.jwtVerify(token, publicKey)
+    // const { payload } = await jose.jwtVerify(token, jwtConfig.secret)
     return payload
   } catch (err) {
     console.error('Error parsing token', err)
@@ -18,11 +34,12 @@ export async function parseToken(token: string): Promise<jose.JWTPayload | null>
 }
 export async function createToken(sub: string, username: string): Promise<string> {
   try {
+    const privateKey = await getPrivateKey()
     return await new jose.SignJWT({ sub, username })
       .setProtectedHeader(jwtConfig.protectedHeader)
       .setIssuedAt()
       .setExpirationTime('1h')
-      .sign(jwtConfig.secret)
+      .sign(privateKey)
   } catch (err) {
     console.error('Error creating token', err)
     throw err
