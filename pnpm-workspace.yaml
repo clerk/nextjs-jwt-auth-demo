@@ -1,6 +1,0 @@
-onlyBuiltDependencies:
-  - '@tailwindcss/oxide'
-  - bcrypt
-  - sharp
-  - sqlite3
-  - unrs-resolver
