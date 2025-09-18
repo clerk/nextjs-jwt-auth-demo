@@ -1,12 +1,15 @@
 import { Card } from '@/components/ui/card'
-import React from 'react'
 import { cookies } from 'next/headers'
 import { parseToken } from '@/lib/jwt'
+import { redirect } from 'next/navigation'
 
 async function DashboardPage() {
   const cookieStore = await cookies()
   const tokenCookie = await cookieStore.get('token')
   const user = await parseToken(tokenCookie?.value as string)
+  if(!user) {
+    redirect('/sign-in')
+  }
 
   return (
     <div className='max-w-800px p-8 flex flex-col gap-4'>
