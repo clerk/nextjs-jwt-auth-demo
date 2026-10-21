@@ -4,16 +4,12 @@ import { useEffect, useState } from 'react'
 function Chart() {
   const [isLoading, setIsLoading] = useState(true)
   const [requiresAuth, setRequiresAuth] = useState<boolean>()
-  const [data, setData] = useState<any>()
 
   useEffect(() => {
     async function loadData() {
       const res = await fetch('/api/data')
       if (res.status === 401) {
         setRequiresAuth(true)
-      } else {
-        const json = await res.json()
-        setData(json)
       }
       setIsLoading(false)
     }
