@@ -17,10 +17,13 @@ async function postToken(token: string): Promise<VerifyResponse> {
     },
   })
   // The route responds with a status code and an empty body
-  return {
-    ok: res.ok,
-    message: res.ok ? 'Token is valid' : `Token is invalid (${res.status})`,
+  if (res.ok) {
+    return { ok: true, message: 'Token is valid' }
   }
+  if (res.status === 401) {
+    return { ok: false, message: 'Token is invalid' }
+  }
+  throw new Error(`Request failed with ${res.status}`)
 }
 
 function Page({}: Props) {
