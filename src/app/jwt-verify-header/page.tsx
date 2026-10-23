@@ -10,24 +10,20 @@ type VerifyResponse = {
 }
 
 async function postToken(token: string): Promise<VerifyResponse> {
-  const res = await fetch('/jwt-verify-header', {
+  const res = await fetch('/api/jwt-verify-header', {
     method: 'POST',
     headers: {
       Authorization: `Bearer ${token}`,
     },
   })
-  if (!res.ok) {
-    let body: unknown = null
-    try {
-      body = await res.json()
-    } catch {}
-    const msg =
-      typeof body === 'object' && body !== null && 'message' in body
-        ? String((body as { message?: unknown }).message ?? '')
-        : ''
-    throw new Error(msg || `Request failed with ${res.status}`)
+  // The route responds with a status code and an empty body
+  if (res.ok) {
+    return { ok: true, message: 'Token is valid' }
   }
-  return res.json()
+  if (res.status === 401) {
+    return { ok: false, message: 'Token is invalid' }
+  }
+  throw new Error(`Request failed with ${res.status}`)
 }
 
 function Page({}: Props) {

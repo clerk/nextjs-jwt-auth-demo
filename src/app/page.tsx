@@ -16,11 +16,11 @@ export default function Home() {
           Next.js JWT Authentication Demo
         </h1>
         <p className="text-base text-center sm:text-left mb-4">
-          This demo shows how to add JWT authentication to a Next.js app using cookies and middleware. You'll learn how to:
+          This demo shows how to add JWT authentication to a Next.js app using cookies and Next.js Proxy (formerly Middleware). You&apos;ll learn how to:
         </p>
         <ul className="list-disc list-inside text-base mb-6 text-left">
           <li>Issue JWTs on login and store them securely in HTTP-only cookies</li>
-          <li>Protect routes and pages using Next.js middleware</li>
+          <li>Protect routes and pages using Next.js Proxy</li>
           <li>Read and validate JWTs</li>
           <li>Implement login, logout, and protected pages</li>
         </ul>

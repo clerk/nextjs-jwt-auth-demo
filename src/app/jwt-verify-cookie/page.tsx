@@ -1,8 +1,8 @@
-import React from 'react'
 // Read cookies on the server in the App Router
 import { cookies } from 'next/headers'
 // JOSE is used for standards-compliant JWT crypto/validation
 import * as jose from 'jose'
+import { Suspense } from 'react'
 
 // RS256 public key (PEM/SPKI). Keep this in env, not in code.
 const publicKeyPem = process.env.JWT_PUBLIC_KEY as string
@@ -12,7 +12,7 @@ async function getPublicKey() {
   return jose.importSPKI(publicKeyPem, 'RS256')
 }
 
-async function Page() {
+async function TokenContent() {
   // Access the cookie store on the server
   const cookieStore = await cookies()
   // JWT expected to be set as a 'token' cookie
@@ -43,6 +43,14 @@ async function Page() {
       <div>Unauthorized content</div>
     )
   }
+}
+
+function Page() {
+  return (
+    <Suspense>
+      <TokenContent />
+    </Suspense>
+  )
 }
 
 export default Page

@@ -2,7 +2,7 @@ import { NextResponse } from 'next/server'
 import type { NextRequest } from 'next/server'
 import { parseToken } from './lib/jwt'
 
-export async function middleware(request: NextRequest) {
+export async function proxy(request: NextRequest) {
   // Create a variable to hold user details
   let user
   const token = request.cookies.get('token')?.value

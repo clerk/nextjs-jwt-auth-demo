@@ -1,1 +1,7 @@
+allowBuilds:
+  bcrypt: false
+  esbuild: false
+  sharp: false
+  sqlite3: true
+  unrs-resolver: false
 minimumReleaseAge: 2880
